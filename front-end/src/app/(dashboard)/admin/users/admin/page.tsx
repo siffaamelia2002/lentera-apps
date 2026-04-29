@@ -11,7 +11,7 @@ export const metadata = {
 export default async function PetugasPage() {
   // Ambil data dari server (SSR) agar SEO dan load awal cepat
   // Sesuaikan endpoint dengan API Laravel kamu (misal: /api/users)
-  const data = await fetchServer("/api/users");
+const data = await fetchServer("/api/users?peran=admin");
 
   return <PetugasClient initialData={data} />;
 }

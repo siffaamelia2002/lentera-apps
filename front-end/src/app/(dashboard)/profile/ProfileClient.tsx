@@ -23,7 +23,7 @@ export default function ProfileClient() {
   const { data, isLoading } = useQuery({
     queryKey: ["user-profile"],
     queryFn: async () => {
-      const res = await api.get("/api/user", { // Pastikan prefix /api konsisten
+      const res = await api.get("/user", { // Pastikan prefix /api konsisten
         withCredentials: true,
       });
       return res.data?.data ?? res.data;

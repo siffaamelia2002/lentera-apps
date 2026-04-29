@@ -14,14 +14,42 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. MASTER DATA JURUSAN & KELAS
-        $jurusanRPL = Jurusan::firstOrCreate(['kode_jurusan' => 'RPL'], ['nama_jurusan' => 'Rekayasa Perangkat Lunak']);
-        $jurusanTKJ = Jurusan::firstOrCreate(['kode_jurusan' => 'TKJ'], ['nama_jurusan' => 'Teknik Komputer Jaringan']);
+        // ==========================================
+        // 1. MASTER DATA 12 JURUSAN
+        // ==========================================
+        $dataJurusan = [
+            ['kode' => 'RPL', 'nama' => 'Rekayasa Perangkat Lunak'],
+            ['kode' => 'TKJ', 'nama' => 'Teknik Komputer Jaringan'],
+            ['kode' => 'MM',  'nama' => 'Multimedia / DKV'],
+            ['kode' => 'OTKP', 'nama' => 'Otomatisasi & Tata Kelola Perkantoran'],
+            ['kode' => 'AKL', 'nama' => 'Akuntansi & Keuangan Lembaga'],
+            ['kode' => 'BDP', 'nama' => 'Bisnis Daring & Pemasaran'],
+            ['kode' => 'TKRO', 'nama' => 'Teknik Kendaraan Ringan Otomotif'],
+            ['kode' => 'TBSM', 'nama' => 'Teknik Bisnis Sepeda Motor'],
+            ['kode' => 'TITL', 'nama' => 'Teknik Instalasi Tenaga Listrik'],
+            ['kode' => 'TPm',  'nama' => 'Teknik Pemesinan'],
+            ['kode' => 'PH',   'nama' => 'Perhotelan'],
+            ['kode' => 'TBG',  'nama' => 'Tata Boga'],
+        ];
 
-        $kelas10RPL = Kelas::firstOrCreate(['nama_kelas' => 'X RPL 1', 'jurusan_id' => $jurusanRPL->id]);
-        $kelas10TKJ = Kelas::firstOrCreate(['nama_kelas' => 'X TKJ 1', 'jurusan_id' => $jurusanTKJ->id]);
+        $jurusanIds = [];
+        $kelasIds = [];
 
-        // List Alamat Dummy agar bervariasi
+        foreach ($dataJurusan as $j) {
+            $jurusan = Jurusan::firstOrCreate(
+                ['kode_jurusan' => $j['kode']],
+                ['nama_jurusan' => $j['nama']]
+            );
+            $jurusanIds[] = $jurusan->id;
+
+            // Buat 1 Kelas contoh untuk setiap jurusan (Misal kelas X)
+            $kelas = Kelas::firstOrCreate(
+                ['nama_kelas' => "X " . $j['kode'] . " 1", 'jurusan_id' => $jurusan->id]
+            );
+            $kelasIds[] = $kelas->id;
+        }
+
+        // List Alamat Dummy
         $daftarAlamat = [
             'Jl. Merdeka No. ', 'Jl. Sudirman No. ', 'Jl. Gatot Subroto No. ', 
             'Perumahan Indah Blok A', 'Gg. Kelinci No. ', 'Jl. Ahmad Yani No. '
@@ -62,7 +90,6 @@ class UserSeeder extends Seeder
                 ]
             );
 
-            // Record Detail di tabel gurus
             Guru::updateOrCreate(
                 ['user_id' => $userGuru->id],
                 [
@@ -73,9 +100,9 @@ class UserSeeder extends Seeder
         }
 
         // ==========================================
-        // 4. GENERATE 10 SISWA
+        // 4. GENERATE 20 SISWA (Disebar ke Jurusan Berbeda)
         // ==========================================
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             $userSiswa = User::updateOrCreate(
                 ['email' => "siswa$i@libra.com"],
                 [
@@ -89,22 +116,20 @@ class UserSeeder extends Seeder
                 ]
             );
 
-            // Tentukan jurusan & kelas selang-seling
-            $jurusanId = ($i % 2 == 0) ? $jurusanTKJ->id : $jurusanRPL->id;
-            $kelasId = ($i % 2 == 0) ? $kelas10TKJ->id : $kelas10RPL->id;
+            // Ambil Index Jurusan/Kelas secara acak dari 12 yang tersedia
+            $randomIndex = rand(0, count($jurusanIds) - 1);
 
-            // Record Detail di tabel siswas
             Siswa::updateOrCreate(
                 ['user_id' => $userSiswa->id],
                 [
                     'nisn' => '00223344' . str_pad($i, 2, '0', STR_PAD_LEFT),
-                    'jurusan_id' => $jurusanId,
-                    'kelas_id' => $kelasId,
+                    'jurusan_id' => $jurusanIds[$randomIndex],
+                    'kelas_id' => $kelasIds[$randomIndex],
                     'status' => 'aktif',
                 ]
             );
         }
 
-        $this->command->info('🔥 SEEDER FIX: 30 User + Alamat & No HP Berhasil di-Inject!');
+        $this->command->info('🔥 SEEDER SUCCESS: 12 Jurusan, 12 Kelas, dan 40 User (Admin, Guru, Siswa) berhasil di-inject!');
     }
 }

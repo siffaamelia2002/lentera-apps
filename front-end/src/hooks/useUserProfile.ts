@@ -54,7 +54,7 @@ export const useUserProfile = () => {
         formData.append("foto", selectedFile);
       }
 
-      const response = await api.post(`/api/users/${user.id}`, formData, {
+      const response = await api.post(`/users/${user.id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
