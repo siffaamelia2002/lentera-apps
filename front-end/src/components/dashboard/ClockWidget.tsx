@@ -4,14 +4,13 @@ import React, { useEffect, useState, memo } from "react";
 
 /**
  * 🔥 FIX: Menggunakan React.memo
- * Ini mencegah komponen Clock memicu re-render ke parent/child lain 
- * yang tidak berhubungan setiap detiknya.
+ * Menjaga stabilitas performa sistem LENTERA dengan mencegah re-render 
+ * yang tidak perlu pada dashboard.
  */
 function ClockWidgetComponent() {
   const [time, setTime] = useState<Date | null>(null);
 
   useEffect(() => {
-    // Set waktu awal segera setelah mount
     setTime(new Date());
 
     const i = setInterval(() => {
@@ -21,10 +20,10 @@ function ClockWidgetComponent() {
     return () => clearInterval(i);
   }, []);
 
-  // Cegah Hydration Mismatch (Server vs Client)
+  // Cegah Hydration Mismatch dengan skema warna Indigo
   if (!time) {
     return (
-      <div className="h-8 w-32 animate-pulse bg-emerald-950/20 rounded-xl border border-emerald-900/20" />
+      <div className="h-8 w-32 animate-pulse bg-indigo-950/20 rounded-xl border border-indigo-900/20" />
     );
   }
 
@@ -41,14 +40,14 @@ function ClockWidgetComponent() {
   });
 
   return (
-    <div className="flex items-center gap-2 px-3 py-2 rounded-xl border border-emerald-900/40 bg-emerald-950/30 backdrop-blur-sm">
-      <span className="text-emerald-400 text-xs">🕒</span>
+    <div className="flex items-center gap-2 px-3 py-2 rounded-xl border border-indigo-900/40 bg-indigo-950/30 backdrop-blur-sm shadow-lg shadow-indigo-500/5">
+      <span className="text-indigo-400 text-xs">🕒</span>
 
-      <span className="text-[11px] font-bold text-emerald-300/80 uppercase">
+      <span className="text-[11px] font-bold text-indigo-300/80 uppercase tracking-wider">
         {date}
       </span>
 
-      <div className="w-[60px]"> {/* Fixed width agar teks jam tidak goyang */}
+      <div className="w-[60px]">
         <span className="text-[11px] font-black text-white font-mono">
           {timeFull}
         </span>
@@ -57,6 +56,5 @@ function ClockWidgetComponent() {
   );
 }
 
-// 🔥 Ekspor dengan React.memo agar stabil
 const ClockWidget = memo(ClockWidgetComponent);
 export default ClockWidget;

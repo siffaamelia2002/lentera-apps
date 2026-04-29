@@ -16,15 +16,15 @@ export default function StepOneForm({ formData, setFormData, onSubmit, isPending
         <label className="text-xs font-semibold text-slate-500 ml-1 uppercase">
           Nomor Identitas (NIP/NISN)
         </label>
-        <div className="relative">
+        <div className="relative group">
           <Fingerprint
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-500 transition-colors"
             size={20}
           />
           <input
             type="text"
             required
-            className="w-full bg-slate-950 border border-slate-800 rounded-xl py-4 pl-12 pr-4 text-white focus:border-emerald-500 outline-none transition-all"
+            className="w-full bg-slate-950 border border-slate-800 rounded-xl py-4 pl-12 pr-4 text-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all"
             placeholder="Masukkan NIP atau NISN"
             value={formData.identity_number}
             onChange={(e) =>
@@ -35,10 +35,10 @@ export default function StepOneForm({ formData, setFormData, onSubmit, isPending
       </div>
       <button
         disabled={isPending}
-        className="w-full bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-500/50 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2"
+        className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-600/50 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2 active:scale-[0.98] shadow-lg shadow-indigo-500/20"
       >
         {isPending ? "Mengecek..." : "Cek Data"}
-        <ArrowRight size={18} />
+        {!isPending && <ArrowRight size={18} />}
       </button>
     </form>
   );

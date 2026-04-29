@@ -26,15 +26,15 @@ export default function KatalogClient() {
   } = useKatalog();
 
   /**
-   * 🔥 FIX UTAMA: Memoize Book List
-   * Ini mencegah 8x render ulang kartu buku saat Zustand melakukan hidrasi.
-   * Kartu buku hanya akan di-render ulang jika data 'paginatedBooks' benar-benar berubah.
+   * 🚀 FIX UTAMA: Memoize Book List
+   * Ini mencegah re-render berlebih kartu buku saat hidrasi atau pembaruan state.
+   * Kartu buku hanya di-render ulang jika data 'paginatedBooks' benar-benar berubah.
    */
   const memoizedBookGrid = useMemo(() => {
     if (paginatedBooks.length === 0) return null;
 
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
         {paginatedBooks.map((item: Buku) => (
           <BookCard
             key={item.id}
@@ -57,8 +57,9 @@ export default function KatalogClient() {
   }, [paginatedBooks]);
 
   return (
-    <div className="p-6 lg:p-10 space-y-10 min-h-screen text-white selection:bg-emerald-500/30">
+    <div className="p-6 lg:p-10 space-y-10 min-h-screen text-white selection:bg-indigo-500/30 selection:text-indigo-200">
       
+      {/* Header Katalog LENTERA */}
       <KatalogHeader
         isLoading={isLoading}
         isFetching={isFetching}
@@ -67,6 +68,7 @@ export default function KatalogClient() {
         setSearchTerm={setSearchTerm}
       />
 
+      {/* Navigasi Filter Kategori */}
       <BookFilters
         categories={kategoriData}
         activeCategory={selectedCategory}
@@ -74,7 +76,7 @@ export default function KatalogClient() {
         isLoading={isLoading && kategoriData.length === 0} 
       />
 
-      {/* Gunakan pengecekan data mentah agar tidak kembali ke Skeleton saat filtering */}
+      {/* Logic Rendering: Skeleton vs Content */}
       {isLoading && filteredBooks.length === 0 ? (
         <KatalogSkeleton />
       ) : (

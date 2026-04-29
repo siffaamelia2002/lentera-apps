@@ -34,7 +34,7 @@ export default function KeranjangClient() {
       setCartItems(data);
       setCartCount(data.length || 0);
     } catch (err) {
-      toast.error("Gagal sinkronisasi keranjang");
+      toast.error("Gagal sinkronisasi reservasi LENTERA");
     } finally {
       setLoadingData(false);
     }
@@ -60,7 +60,7 @@ export default function KeranjangClient() {
 
   const updateQty = async (id: number, val: number, stok: number) => {
     let newQty = val;
-    if (newQty > stok) { toast.error(`Stok maksimal: ${stok}`); newQty = stok; }
+    if (newQty > stok) { toast.error(`Stok maksimal inventaris: ${stok}`); newQty = stok; }
     if (newQty < 1 || isNaN(newQty)) { newQty = 1; }
 
     try {
@@ -75,7 +75,7 @@ export default function KeranjangClient() {
     if (!deleteTarget) return;
     try {
       await api.delete(`cart-items/${deleteTarget}`);
-      toast.success("Berhasil dihapus");
+      toast.success("Item reservasi dihapus");
       setDeleteTarget(null);
       fetchCart();
     } catch (err) {
@@ -88,7 +88,6 @@ export default function KeranjangClient() {
     
     setIsSubmitting(true);
     try {
-      // Data yang dikirim ke Laravel
       const payload = {
         user_id: user.id,
         tanggal_pinjam: format(tglPinjam, "yyyy-MM-dd"),
@@ -100,32 +99,25 @@ export default function KeranjangClient() {
       };
 
       const response = await api.post("peminjaman", payload);
-      
       const kodePmj = response.data.data?.kode_peminjaman || "";
 
-      toast.success(`Pengajuan ${kodePmj} berhasil dikirim!`);
+      toast.success(`Reservasi ${kodePmj} LENTERA berhasil dikirim!`);
       
-      // Reset State
       setSelectedIds([]);
       setCartCount(cartItems.length - selectedIds.length);
       setShowConfirmAjukan(false);
-
-      // REDIRECT KE HALAMAN PEMINJAMAN
       router.push("/peminjaman");
       
     } catch (err: any) {
-      console.error("Error Detail:", err.response?.data);
-      toast.error(err.response?.data?.message || "Gagal mengirim pengajuan");
+      toast.error(err.response?.data?.message || "Gagal mengirim reservasi");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // 🔥 FULL SKELETON UI FIX
   if (loadingData) {
     return (
       <div className="max-w-7xl mx-auto p-6 lg:p-10 space-y-10 animate-pulse">
-        {/* Header Skeleton */}
         <header className="flex items-center gap-5">
           <div className="w-16 h-16 bg-slate-800 rounded-2xl"></div>
           <div className="space-y-3">
@@ -135,16 +127,12 @@ export default function KeranjangClient() {
         </header>
 
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-10">
-          {/* Kolom Kiri: Item Keranjang Skeleton */}
           <div className="xl:col-span-7 space-y-4">
             <div className="h-3 w-32 bg-slate-800 rounded-full mb-6"></div>
             {[1, 2, 3].map((i) => (
               <div key={i} className="flex gap-4 p-5 bg-slate-900/40 border border-slate-800 rounded-3xl">
-                {/* Checkbox */}
                 <div className="w-6 h-6 bg-slate-800 rounded-md mt-4"></div>
-                {/* Image Cover */}
                 <div className="w-24 h-32 bg-slate-800 rounded-xl"></div>
-                {/* Content */}
                 <div className="flex-1 space-y-4 py-2">
                   <div className="h-5 w-3/4 bg-slate-800 rounded-md"></div>
                   <div className="h-4 w-1/2 bg-slate-800 rounded-md"></div>
@@ -157,18 +145,14 @@ export default function KeranjangClient() {
             ))}
           </div>
 
-          {/* Kolom Kanan: Summary Skeleton */}
           <div className="xl:col-span-5">
             <div className="bg-slate-900/40 border border-slate-800 rounded-[2.5rem] p-6 lg:p-8 space-y-6">
               <div className="h-6 w-40 bg-slate-800 rounded-md"></div>
-              {/* Box Calendar Placeholder */}
               <div className="h-72 w-full bg-slate-800 rounded-3xl"></div>
-              {/* Rincian Placeholder */}
               <div className="space-y-4 mt-8">
                 <div className="h-4 w-full bg-slate-800 rounded-md"></div>
                 <div className="h-4 w-5/6 bg-slate-800 rounded-md"></div>
               </div>
-              {/* Button Placeholder */}
               <div className="h-16 w-full bg-slate-800 rounded-2xl mt-6"></div>
             </div>
           </div>
@@ -184,8 +168,8 @@ export default function KeranjangClient() {
         onClose={() => setDeleteTarget(null)} 
         onConfirm={handleRemove} 
         variant="danger" 
-        title="Hapus Buku?" 
-        description="Buku akan dihapus dari rencana pinjam." 
+        title="Hapus Reservasi?" 
+        description="Buku akan dihapus dari rencana reservasi arsip." 
         confirmText="Ya, Hapus" 
       />
       
@@ -194,20 +178,20 @@ export default function KeranjangClient() {
         onClose={() => setShowConfirmAjukan(false)} 
         onConfirm={handleAjukanFinal} 
         isLoading={isSubmitting} 
-        title="Kirim Pengajuan?" 
-        description={`Ajukan pinjam ${totalQty} buku untuk ${durasi} hari?`} 
-        confirmText="Kirim Sekarang" 
+        title="Proses Reservasi?" 
+        description={`Ajukan reservasi ${totalQty} buku untuk ${durasi} hari?`} 
+        confirmText="Proses Sekarang" 
       />
 
       <header className="flex items-center gap-5">
-        <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-500 shadow-xl shadow-emerald-500/10">
+        <div className="p-4 bg-indigo-500/10 border border-indigo-500/20 rounded-2xl text-indigo-500 shadow-xl shadow-indigo-500/10">
           <ShoppingBag size={32} />
         </div>
         <div>
           <h1 className="text-4xl font-black text-white uppercase italic tracking-tighter leading-none">
-            Checkout <span className="text-emerald-500">Peminjaman</span>
+            Checkout <span className="text-indigo-500">LENTERA</span>
           </h1>
-          <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.3em] mt-2 italic">Review Jadwal & Stok</p>
+          <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.3em] mt-2 italic">Navigasi Transaksi & Reservasi Arsip</p>
         </div>
       </header>
 
@@ -226,7 +210,7 @@ export default function KeranjangClient() {
             />
           )) : (
             <div className="text-center py-24 border-2 border-dashed border-slate-900 rounded-[3.5rem]">
-              <p className="text-slate-700 font-black uppercase text-xs tracking-[0.3em] italic">Belum ada pilihan</p>
+              <p className="text-slate-700 font-black uppercase text-xs tracking-[0.3em] italic">Belum ada reservasi</p>
             </div>
           )}
         </div>
@@ -247,10 +231,10 @@ export default function KeranjangClient() {
       </div>
 
       <style jsx global>{`
-        .rdp { --rdp-accent-color: #10b981; --rdp-background-color: #064e3b; margin: 0; }
+        .rdp { --rdp-accent-color: #6366f1; --rdp-background-color: #1e1b4b; margin: 0; }
         .rdp-day_selected { background-color: var(--rdp-accent-color) !important; font-weight: bold; border-radius: 12px; }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #312e81; border-radius: 10px; }
       `}</style>
     </div>
   );

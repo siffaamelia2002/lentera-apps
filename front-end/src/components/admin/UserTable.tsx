@@ -78,7 +78,7 @@ export default function UserTable({
     });
 
     columns.forEach(c => {
-      // 🔥 BACA FORMKEY ATAU ACCESSOR SEBAGAI FALLBACK
+      // 🚀 BACA FORMKEY ATAU ACCESSOR SEBAGAI FALLBACK
       const fieldKey = c.formKey || c.accessor;
       
       if (c.type === 'select' && state.selectValues[fieldKey]) {
@@ -104,10 +104,10 @@ export default function UserTable({
     mutations.submitMutation.mutate(dataObject);
   };
 
-  // 🔥 STATE GABUNGAN UNTUK LOGIKA KONDISIONAL FORM
+  // 🚀 STATE GABUNGAN UNTUK LOGIKA KONDISIONAL FORM
   const currentFormValues = { ...state.formData, ...state.selectValues };
 
-  // 🔥 FILTER KOLOM FORM BERDASARKAN showCondition
+  // 🚀 FILTER KOLOM FORM BERDASARKAN showCondition
   const formColumns = columns.filter((col: any) => {
     if (!col.type || col.accessor === 'id') return false;
     if (col.showCondition && !col.showCondition(currentFormValues)) return false;
@@ -120,14 +120,14 @@ export default function UserTable({
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-slate-900/50 p-6 rounded-3xl border border-slate-800">
         <div>
           <h1 className="text-2xl font-black text-white tracking-tight uppercase italic">
-            {title.split(' ')[0]} <span className="text-emerald-500">{title.split(' ').slice(1).join(' ')}</span>
+            {title.split(' ')[0]} <span className="text-indigo-500">{title.split(' ').slice(1).join(' ')}</span>
           </h1>
           <p className="text-slate-400 text-xs mt-1 font-medium">{description}</p>
         </div>
         <div className="flex items-center gap-3">
           {headerActions}
           {showAddButton && (
-            <button onClick={handlers.handleAdd} className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3.5 rounded-2xl text-[10px] font-black transition-all shadow-lg shadow-emerald-900/20 uppercase tracking-widest whitespace-nowrap">
+            <button onClick={handlers.handleAdd} className="flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3.5 rounded-2xl text-[10px] font-black transition-all shadow-lg shadow-indigo-900/20 uppercase tracking-widest whitespace-nowrap active:scale-95">
               <Plus size={16} strokeWidth={3} /> Tambah Data
             </button>
           )}
@@ -143,7 +143,7 @@ export default function UserTable({
           <label className="text-slate-500 text-[10px] font-black uppercase ml-1 tracking-widest">Pencarian</label>
           <div className="relative mt-1">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><Search size={18} className="text-slate-500" /></div>
-            <input type="text" value={state.searchTerm} onChange={(e) => setters.setSearchTerm(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 text-xs font-bold text-white focus:border-emerald-500/50 outline-none transition-all placeholder:text-slate-500 shadow-inner" placeholder={searchPlaceholder} />
+            <input type="text" value={state.searchTerm} onChange={(e) => setters.setSearchTerm(e.target.value)} className="w-full bg-slate-950 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 text-xs font-bold text-white focus:border-indigo-500/50 focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all placeholder:text-slate-500 shadow-inner" placeholder={searchPlaceholder} />
           </div>
         </div>
         {filterOptions && filterColumn && (
@@ -155,7 +155,7 @@ export default function UserTable({
 
       {/* TABLE */}
       <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden z-0">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto custom-scrollbar">
           <table className="w-full text-left border-separate border-spacing-0">
             <thead>
               <tr className="bg-slate-950/50">
@@ -167,7 +167,7 @@ export default function UserTable({
             </thead>
             <tbody className="divide-y divide-slate-800/50">
               {isLoading ? (
-                <tr><td colSpan={columns.length + 1} className="py-20 text-center"><Loader2 className="animate-spin mx-auto text-emerald-500" size={32} /><p className="text-slate-500 text-xs mt-4 font-bold tracking-widest">MENYIAPKAN DATA...</p></td></tr>
+                <tr><td colSpan={columns.length + 1} className="py-20 text-center"><Loader2 className="animate-spin mx-auto text-indigo-500" size={32} /><p className="text-slate-500 text-xs mt-4 font-bold tracking-widest">MENYIAPKAN DATA...</p></td></tr>
               ) : state.currentData.length > 0 ? (
                 state.currentData.map((item: any) => (
                   <tr key={item.id} className="hover:bg-slate-800/30 transition-colors group">
@@ -204,8 +204,8 @@ export default function UserTable({
           <div className="flex items-center justify-between p-5 bg-slate-950/50 border-t border-slate-800">
              <div className="text-xs font-medium text-slate-400">Hal {state.currentPage} / {state.totalPages || 1}</div>
              <div className="flex gap-2">
-                <button onClick={() => setters.setCurrentPage((prev: number) => Math.max(1, prev - 1))} className="p-2 bg-slate-900 border border-slate-800 rounded-xl"><ChevronLeft size={16}/></button>
-                <button onClick={() => setters.setCurrentPage((prev: number) => Math.min(state.totalPages, prev + 1))} className="p-2 bg-slate-900 border border-slate-800 rounded-xl"><ChevronRight size={16}/></button>
+                <button onClick={() => setters.setCurrentPage((prev: number) => Math.max(1, prev - 1))} className="p-2 bg-slate-900 border border-slate-800 rounded-xl hover:bg-slate-800 transition-colors"><ChevronLeft size={16}/></button>
+                <button onClick={() => setters.setCurrentPage((prev: number) => Math.min(state.totalPages, prev + 1))} className="p-2 bg-slate-900 border border-slate-800 rounded-xl hover:bg-slate-800 transition-colors"><ChevronRight size={16}/></button>
              </div>
           </div>
         )}
@@ -221,7 +221,7 @@ export default function UserTable({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {formColumns.map((col: any) => {
               const isFullWidth = col.type === 'file' || col.type === 'textarea';
-              const fieldKey = col.formKey || col.accessor; // 🔥 TERAPKAN FORMKEY
+              const fieldKey = col.formKey || col.accessor;
               
               return (
                 <div key={fieldKey} className={`space-y-2 ${isFullWidth ? 'md:col-span-2' : ''}`}>
@@ -239,18 +239,18 @@ export default function UserTable({
                       />
                       <label 
                         htmlFor={`file-${fieldKey}`} 
-                        className={`flex flex-col items-center justify-center w-full border-2 border-dashed border-slate-700 rounded-2xl cursor-pointer hover:border-emerald-500 hover:bg-emerald-500/5 transition-all overflow-hidden ${previewUrl ? 'h-48' : 'h-32'}`}
+                        className={`flex flex-col items-center justify-center w-full border-2 border-dashed border-slate-700 rounded-2xl cursor-pointer hover:border-indigo-500 hover:bg-indigo-500/5 transition-all overflow-hidden ${previewUrl ? 'h-48' : 'h-32'}`}
                       >
                         {previewUrl ? (
                           <div className="relative w-full h-full">
                             <img src={previewUrl} alt="Preview" className="w-full h-full object-contain p-2" />
-                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
+                            <div className="absolute inset-0 bg-slate-950/80 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all backdrop-blur-sm">
                               <span className="text-white text-xs font-bold flex items-center gap-2"><UploadCloud size={18}/> Ganti Gambar</span>
                             </div>
                           </div>
                         ) : (
                           <div className="flex flex-col items-center justify-center pt-5 pb-6 text-slate-500">
-                            <UploadCloud size={28} className="mb-3 group-hover:text-emerald-500 transition-colors" />
+                            <UploadCloud size={28} className="mb-3 group-hover:text-indigo-500 transition-colors" />
                             <p className="text-xs font-medium">Klik untuk mengunggah gambar</p>
                           </div>
                         )}
@@ -270,7 +270,7 @@ export default function UserTable({
                     <textarea 
                       name={fieldKey} 
                       defaultValue={getNestedValue(state.formData, col.accessor, "")} 
-                      className="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 px-4 text-sm text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all placeholder:text-slate-600 min-h-[120px] resize-y" 
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 px-4 text-sm text-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-600 min-h-[120px] resize-y" 
                       placeholder={`Masukkan ${col.header}...`}
                       required={col.required}
                     />
@@ -279,7 +279,7 @@ export default function UserTable({
                       type={col.type || "text"} 
                       name={fieldKey} 
                       defaultValue={getNestedValue(state.formData, col.accessor, "")} 
-                      className="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 px-4 text-sm text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all placeholder:text-slate-600" 
+                      className="w-full bg-slate-900 border border-slate-700 rounded-xl py-3 px-4 text-sm text-white focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-600 shadow-inner" 
                       placeholder={`Masukkan ${col.header}...`}
                       required={col.required}
                     />
@@ -293,14 +293,14 @@ export default function UserTable({
             <button 
               type="button" 
               onClick={() => setters.setIsFormOpen(false)} 
-              className="flex-1 py-3.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-black uppercase tracking-widest hover:bg-slate-700 transition-all"
+              className="flex-1 py-3.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-black uppercase tracking-widest hover:bg-slate-700 transition-all active:scale-95"
             >
               Batal
             </button>
             <button 
               type="submit" 
               disabled={mutations.submitMutation.isPending} 
-              className="flex-1 py-3.5 rounded-xl bg-emerald-600 text-white text-xs font-black uppercase tracking-widest hover:bg-emerald-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 py-3.5 rounded-xl bg-indigo-600 text-white text-xs font-black uppercase tracking-widest hover:bg-indigo-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-indigo-900/20 active:scale-95"
             >
               {mutations.submitMutation.isPending ? <><Loader2 size={16} className="animate-spin"/> Menyimpan</> : "Simpan Data"}
             </button>
@@ -320,7 +320,7 @@ export default function UserTable({
                 </div>
               ))}
             </div>
-            <button onClick={() => setters.setIsDetailOpen(false)} className="w-full bg-slate-800 py-4 rounded-xl text-[10px] font-black text-white uppercase tracking-widest hover:bg-slate-700">Tutup Detail</button>
+            <button onClick={() => setters.setIsDetailOpen(false)} className="w-full bg-slate-800 py-4 rounded-xl text-[10px] font-black text-white uppercase tracking-widest hover:bg-slate-700 transition-colors active:scale-95">Tutup Detail</button>
           </div>
         )}
       </ModalCustom>

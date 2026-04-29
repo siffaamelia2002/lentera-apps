@@ -1,4 +1,3 @@
-// components/Topbar/ProfileDropdown.tsx
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -38,9 +37,10 @@ export default function ProfileDropdown({ initialUser }: ProfileDropdownProps) {
       } catch (e) {}
       return cleanPic;
     }
+    // Background avatar disesuaikan ke nuansa indigo gelap
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(
       safeName
-    )}&background=0f172a&color=fff`;
+    )}&background=312e81&color=fff`;
   };
 
   const finalImage = getProfileImage();
@@ -67,7 +67,7 @@ export default function ProfileDropdown({ initialUser }: ProfileDropdownProps) {
       setIsLoggingOut(false);
       setIsLogoutModalOpen(false);
       router.replace(
-        "/login?status=success&title=Logout Berhasil&msg=Sampai jumpa lagi di LIBRA!"
+        "/login?status=success&title=Logout Berhasil&msg=Sampai jumpa lagi di LENTERA!"
       );
     }
   };
@@ -77,9 +77,9 @@ export default function ProfileDropdown({ initialUser }: ProfileDropdownProps) {
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setIsProfileOpen(!isProfileOpen)}
-          className="flex items-center gap-3 p-1.5 pr-4 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-2xl transition active:scale-95"
+          className="flex items-center gap-3 p-1.5 pr-4 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-2xl transition active:scale-95 group"
         >
-          <div className="w-10 h-10 rounded-xl overflow-hidden border border-slate-700 relative bg-slate-800">
+          <div className="w-10 h-10 rounded-xl overflow-hidden border border-slate-700 relative bg-slate-800 group-hover:border-indigo-500/50 transition-colors">
             <Image
               key={finalImage}
               src={finalImage}
@@ -95,28 +95,28 @@ export default function ProfileDropdown({ initialUser }: ProfileDropdownProps) {
             <p className="text-[11px] font-black text-white uppercase truncate max-w-[120px]">
               {safeName}
             </p>
-            <p className="text-[9px] font-bold text-emerald-500 uppercase">
+            <p className="text-[9px] font-bold text-indigo-400 uppercase tracking-wider">
               {safePeran}
             </p>
           </div>
 
           <ChevronDown
             size={14}
-            className={`transition-transform duration-200 text-slate-500 ${
+            className={`transition-transform duration-300 text-slate-500 group-hover:text-indigo-400 ${
               isProfileOpen ? "rotate-180" : ""
             }`}
           />
         </button>
 
         {isProfileOpen && (
-          <div className="absolute right-0 mt-3 w-56 bg-slate-950 border border-slate-800 rounded-3xl p-2 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-200">
+          <div className="absolute right-0 mt-3 w-56 bg-slate-950 border border-slate-800 rounded-3xl p-2 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-200 shadow-indigo-500/10">
             <Link
               href="/profile"
               onClick={() => setIsProfileOpen(false)}
-              className="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-slate-900 rounded-xl transition"
+              className="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-indigo-500/10 hover:text-indigo-400 rounded-xl transition group/item"
             >
-              <UserIcon size={18} className="text-emerald-500" />
-              Profil Saya
+              <UserIcon size={18} className="text-indigo-500 group-hover/item:scale-110 transition-transform" />
+              <span className="text-sm font-bold tracking-tight">Profil Saya</span>
             </Link>
 
             <div className="h-px bg-slate-800 my-1 mx-2"></div>
@@ -126,10 +126,10 @@ export default function ProfileDropdown({ initialUser }: ProfileDropdownProps) {
                 setIsProfileOpen(false);
                 setIsLogoutModalOpen(true);
               }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 text-rose-400 hover:bg-rose-500/10 rounded-xl transition"
+              className="w-full flex items-center gap-3 px-3 py-2.5 text-rose-400 hover:bg-rose-500/10 rounded-xl transition group/logout"
             >
-              <LogOut size={18} />
-              Keluar
+              <LogOut size={18} className="group-hover/logout:-translate-x-1 transition-transform" />
+              <span className="text-sm font-bold tracking-tight">Keluar</span>
             </button>
           </div>
         )}
@@ -141,7 +141,7 @@ export default function ProfileDropdown({ initialUser }: ProfileDropdownProps) {
         onConfirm={handleLogoutSPA}
         isLoading={isLoggingOut}
         title="Konfirmasi Logout"
-        message={`Halo ${safeName}, yakin ingin keluar dari sistem?`}
+        message={`Halo ${safeName}, yakin ingin keluar dari sistem LENTERA?`}
       />
     </>
   );

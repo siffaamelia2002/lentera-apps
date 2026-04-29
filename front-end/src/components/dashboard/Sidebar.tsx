@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
-  ChevronRight, PanelLeftClose, PanelLeftOpen, ChevronDown, X 
+  ChevronRight, PanelLeftClose, PanelLeftOpen, ChevronDown, X, Lamp 
 } from "lucide-react";
 import { getMenuItems, Role, MenuItem } from "@/config/menu";
 import { useState, useRef } from "react";
@@ -13,8 +13,8 @@ interface SidebarProps {
   isCollapsed: boolean;
   setIsCollapsed: (value: boolean) => void;
   role: Role;
-  isMobileOpen: boolean; // 🔥 Tambahan
-  setIsMobileOpen: (value: boolean) => void; // 🔥 Tambahan
+  isMobileOpen: boolean;
+  setIsMobileOpen: (value: boolean) => void;
 }
 
 export default function Sidebar({ isCollapsed, setIsCollapsed, role, isMobileOpen, setIsMobileOpen }: SidebarProps) {
@@ -37,7 +37,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, role, isMobileOpe
       try {
         const dataUrl = await domToPng(element, { quality: 1, scale: 4, backgroundColor: null });
         const link = document.createElement("a");
-        link.download = `libra-logo-fixed.png`;
+        link.download = `lentera-logo-fixed.png`;
         link.href = dataUrl;
         link.click();
       } finally {
@@ -49,7 +49,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, role, isMobileOpe
 
   return (
     <>
-      {/* 🔥 OVERLAY: Muncul di mobile saat menu terbuka. Klik untuk tutup. */}
+      {/* OVERLAY */}
       {isMobileOpen && (
         <div 
           className="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-[115] lg:hidden animate-in fade-in duration-300"
@@ -63,7 +63,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, role, isMobileOpe
           ${isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
       >
-        {/* --- TOMBOL TUTUP DI MOBILE --- */}
+        {/* TOMBOL TUTUP DI MOBILE */}
         <button 
           onClick={() => setIsMobileOpen(false)}
           className="lg:hidden absolute top-7 right-4 p-2 text-slate-400 hover:text-red-400 transition-colors"
@@ -74,18 +74,20 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, role, isMobileOpe
         <div className="pt-8 mb-10 px-6">
           <div className={`flex items-center transition-all duration-300 ${isCollapsed ? "lg:justify-center gap-0" : "gap-4"}`}>
             <div ref={logoRef} onClick={downloadLogo} className="relative shrink-0 group cursor-pointer p-2 bg-transparent">
-              <div className="logo-glow absolute -inset-1 bg-gradient-to-r from-emerald-600 to-teal-500 rounded-xl blur-md opacity-60 group-hover:opacity-100 transition-all duration-500" />
-              <div className="logo-icon-box relative w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.4)] transition-transform duration-700 group-hover:rotate-[360deg]">
-                <div className="w-4 h-4 bg-slate-950 rounded-sm rotate-45" />
+              {/* Glow Indigo */}
+              <div className="logo-glow absolute -inset-1 bg-gradient-to-r from-indigo-600 to-blue-500 rounded-xl blur-md opacity-60 group-hover:opacity-100 transition-all duration-500" />
+              {/* Logo Icon LENTERA */}
+              <div className="logo-icon-box relative w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(79,70,229,0.4)] transition-all duration-500 group-hover:scale-110 border border-indigo-400/30">
+                <Lamp className="w-6 h-6 text-white" />
               </div>
             </div>
 
             {(!isCollapsed || isMobileOpen) && (
               <div className="transition-opacity duration-500 overflow-hidden">
-                <h1 className="text-xl font-black text-white tracking-[0.15em] leading-none uppercase">LIBRA</h1>
+                <h1 className="text-xl font-black text-white tracking-[0.15em] leading-none uppercase">LENTERA</h1>
                 <div className="flex items-center gap-2 mt-1.5 whitespace-nowrap">
-                  <span className="h-[1.5px] w-3 bg-emerald-500 rounded-full shrink-0"></span>
-                  <p className="text-[8px] uppercase tracking-[0.05em] text-slate-500 font-bold">Akses Literasi Modern</p>
+                  <span className="h-[1.5px] w-3 bg-indigo-500 rounded-full shrink-0"></span>
+                  <p className="text-[8px] uppercase tracking-[0.05em] text-slate-500 font-bold">Navigasi Edukasi & Arsip</p>
                 </div>
               </div>
             )}
@@ -115,10 +117,10 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, role, isMobileOpe
                     onClick={() => showText && toggleSubMenu(item.name)}
                     className={`w-full flex items-center rounded-xl transition-all duration-300 group py-3 
                       ${!showText ? "justify-center px-0" : "justify-between px-5"} 
-                      ${isActive ? "bg-emerald-500/10 text-emerald-400" : "text-slate-500 hover:text-slate-200 hover:bg-slate-900/50"}`}
+                      ${isActive ? "bg-indigo-500/10 text-indigo-400" : "text-slate-500 hover:text-slate-200 hover:bg-slate-900/50"}`}
                   >
                     <div className="flex items-center gap-3.5">
-                      <item.icon size={18} className={`shrink-0 ${isActive ? "text-emerald-400" : "group-hover:text-emerald-400"}`} />
+                      <item.icon size={18} className={`shrink-0 ${isActive ? "text-indigo-400" : "group-hover:text-indigo-400"}`} />
                       {showText && <span className="text-sm font-bold tracking-tight whitespace-nowrap">{item.name}</span>}
                     </div>
                     {showText && <ChevronDown size={14} className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />}
@@ -126,22 +128,22 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, role, isMobileOpe
                 ) : (
                   <Link 
                     href={item.href}
-                    onClick={() => setIsMobileOpen(false)} // 🔥 Tutup saat menu diklik
+                    onClick={() => setIsMobileOpen(false)}
                     className={`flex items-center rounded-xl transition-all duration-300 group py-3 
                       ${!showText ? "justify-center px-0" : "justify-between px-5"} 
-                      ${isActive ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" : "text-slate-500 hover:text-slate-200 hover:bg-slate-900/50"}`}
+                      ${isActive ? "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20" : "text-slate-500 hover:text-slate-200 hover:bg-slate-900/50"}`}
                   >
                     <div className="flex items-center gap-3.5">
-                      <item.icon size={18} className={`shrink-0 ${isActive ? "text-emerald-400" : "group-hover:text-emerald-400"}`} />
+                      <item.icon size={18} className={`shrink-0 ${isActive ? "text-indigo-400" : "group-hover:text-indigo-400"}`} />
                       {showText && <span className="text-sm font-bold tracking-tight whitespace-nowrap">{item.name}</span>}
                     </div>
-                    {showText && isActive && <ChevronRight size={12} className="text-emerald-400 animate-pulse" />}
+                    {showText && isActive && <ChevronRight size={12} className="text-indigo-400 animate-pulse" />}
                   </Link>
                 )}
                 {showText && hasChild && isOpen && (
                   <div className="ml-9 space-y-1 border-l-2 border-slate-900 animate-in slide-in-from-top-2 duration-300">
                     {item.child?.map((sub) => (
-                      <Link key={sub.name} href={sub.href} onClick={() => setIsMobileOpen(false)} className={`flex items-center gap-3 py-2.5 pl-6 text-[10px] font-black uppercase tracking-widest transition-all ${pathname === sub.href ? "text-emerald-500" : "text-slate-600 hover:text-slate-300"}`}>
+                      <Link key={sub.name} href={sub.href} onClick={() => setIsMobileOpen(false)} className={`flex items-center gap-3 py-2.5 pl-6 text-[10px] font-black uppercase tracking-widest transition-all ${pathname === sub.href ? "text-indigo-500" : "text-slate-600 hover:text-slate-300"}`}>
                         <sub.icon size={12} /> {sub.name}
                       </Link>
                     ))}
@@ -154,7 +156,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, role, isMobileOpe
 
         <div className="hidden lg:block p-4 border-t border-slate-900/50">
           <button onClick={() => setIsCollapsed(!isCollapsed)} className={`w-full flex items-center py-3 rounded-xl transition-all duration-300 text-slate-600 hover:text-white hover:bg-slate-900 ${isCollapsed ? "justify-center" : "px-4 gap-3"}`}>
-            {isCollapsed ? <PanelLeftOpen size={20} className="text-emerald-500" /> : <><PanelLeftClose size={18} /><span className="text-[10px] font-black uppercase tracking-widest">Kecilkan Menu</span></>}
+            {isCollapsed ? <PanelLeftOpen size={20} className="text-indigo-500" /> : <><PanelLeftClose size={18} /><span className="text-[10px] font-black uppercase tracking-widest">Kecilkan Menu</span></>}
           </button>
         </div>
       </aside>

@@ -1,4 +1,3 @@
-// components/aktivasi/AktivasiClient.tsx
 "use client";
 
 import { useState } from "react";
@@ -42,22 +41,24 @@ export default function AktivasiClient() {
     <div className="w-full min-h-screen flex items-center justify-center bg-slate-950 relative overflow-hidden p-6">
       {/* --- BACKGROUND DECORATION --- */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:32px_32px] opacity-20" />
-        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-emerald-600/10 blur-[120px]" />
+        {/* Dot pattern disesuaikan ke nuansa indigo */}
+        <div className="absolute inset-0 bg-[radial-gradient(#312e81_1px,transparent_1px)] [background-size:32px_32px] opacity-20" />
+        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-indigo-600/10 blur-[120px]" />
       </div>
 
       <div className="w-full max-w-[450px] z-10">
-        <div className="bg-slate-900/60 backdrop-blur-xl p-8 rounded-[2rem] border border-slate-800 shadow-2xl">
+        <div className="bg-slate-900/60 backdrop-blur-xl p-8 rounded-[2rem] border border-slate-800 shadow-2xl hover:border-indigo-500/20 transition-colors duration-500">
           
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 mb-4">
-              <ShieldCheck className="text-emerald-500" size={32} />
+            {/* Ikon Shield dengan aksen Indigo */}
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 mb-4 shadow-lg shadow-indigo-500/5">
+              <ShieldCheck className="text-indigo-500" size={32} />
             </div>
-            <h2 className="text-2xl font-bold text-white">Aktivasi Akun</h2>
-            <p className="text-slate-400 text-sm mt-1">
+            <h2 className="text-2xl font-black text-white italic uppercase tracking-tight">Aktivasi Akun</h2>
+            <p className="text-slate-400 text-sm mt-1.5 font-medium">
               {step === 1
-                ? "Verifikasi NIP/NISN Anda"
-                : `Lengkapi data untuk ${targetUser.name}`}
+                ? "Verifikasi identitas Anda di LENTERA"
+                : `Lengkapi kredensial untuk ${targetUser.name}`}
             </p>
           </div>
 
@@ -79,12 +80,13 @@ export default function AktivasiClient() {
             />
           )}
 
-          <div className="mt-8 pt-6 border-t border-slate-800 text-center">
+          <div className="mt-8 pt-6 border-t border-slate-800/50 text-center">
             <Link
               href="/login"
-              className="text-sm text-slate-500 hover:text-emerald-400 flex items-center justify-center gap-2 transition-colors"
+              className="text-xs font-bold text-slate-500 hover:text-indigo-400 flex items-center justify-center gap-2 transition-all group"
             >
-              <ArrowLeft size={14} /> Kembali ke Login
+              <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> 
+              KEMBALI KE LOGIN
             </Link>
           </div>
         </div>

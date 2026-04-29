@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LIBRA - Digital Library",
+  title: "Lentera - Digital Library",
   description: "Sistem Informasi Perpustakaan Modern",
 };
 

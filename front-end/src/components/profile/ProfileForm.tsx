@@ -13,7 +13,7 @@ export default function ProfileForm({ data, onSubmit, isLoading }: any) {
   });
 
   /**
-   * 🔥 INIT SEKALI SAJA (ANTI FLICKER)
+   * 🚀 INIT SEKALI SAJA (ANTI FLICKER)
    */
   useEffect(() => {
     if (!data || hasInitialized.current) return;
@@ -61,17 +61,17 @@ export default function ProfileForm({ data, onSubmit, isLoading }: any) {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h3 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em]">
-              Detail Akun
+              Detail Akun LENTERA
             </h3>
-            <p className="text-xs text-slate-400 mt-1">
-              Data tersinkronisasi otomatis
+            <p className="text-xs text-slate-400 mt-1 font-medium">
+              Data tersinkronisasi otomatis dengan sistem
             </p>
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest bg-emerald-600 hover:bg-emerald-500 text-white transition-all active:scale-95 disabled:opacity-50"
+            className="flex items-center gap-3 px-7 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest bg-indigo-600 hover:bg-indigo-500 text-white transition-all shadow-lg shadow-indigo-900/20 active:scale-95 disabled:opacity-50"
           >
             {isLoading ? (
               <Loader2 size={14} className="animate-spin" />
@@ -89,14 +89,14 @@ export default function ProfileForm({ data, onSubmit, isLoading }: any) {
             <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">
               Nama Lengkap
             </label>
-            <div className="relative">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-700" size={18} />
+            <div className="relative group">
+              <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-700 group-focus-within:text-indigo-500 transition-colors" size={18} />
               <input
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
                 disabled={isLoading}
-                className="w-full bg-slate-950/50 border border-slate-900 rounded-2xl py-3.5 pl-12 pr-4 text-sm font-bold text-white outline-none"
+                className="w-full bg-slate-950/50 border border-slate-900 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold text-white outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all"
               />
             </div>
           </div>
@@ -111,7 +111,7 @@ export default function ProfileForm({ data, onSubmit, isLoading }: any) {
               <input
                 value={getIdentityValue()}
                 disabled
-                className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl py-3.5 pl-12 pr-4 text-sm font-bold text-slate-500"
+                className="w-full bg-slate-900/50 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold text-slate-500 cursor-not-allowed"
               />
             </div>
           </div>
@@ -121,14 +121,14 @@ export default function ProfileForm({ data, onSubmit, isLoading }: any) {
             <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">
               No. WhatsApp
             </label>
-            <div className="relative">
-              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-700" size={18} />
+            <div className="relative group">
+              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-700 group-focus-within:text-indigo-500 transition-colors" size={18} />
               <input
                 name="no_hp"
                 value={formData.no_hp}
                 onChange={handleChange}
                 disabled={isLoading}
-                className="w-full bg-slate-950/50 border border-slate-900 rounded-2xl py-3.5 pl-12 pr-4 text-sm font-bold text-white outline-none"
+                className="w-full bg-slate-950/50 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold text-white outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all"
               />
             </div>
           </div>
@@ -138,14 +138,14 @@ export default function ProfileForm({ data, onSubmit, isLoading }: any) {
             <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest ml-1">
               Alamat Domisili
             </label>
-            <div className="relative">
-              <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-700" size={18} />
+            <div className="relative group">
+              <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-700 group-focus-within:text-indigo-500 transition-colors" size={18} />
               <input
                 name="alamat"
                 value={formData.alamat}
                 onChange={handleChange}
                 disabled={isLoading}
-                className="w-full bg-slate-950/50 border border-slate-900 rounded-2xl py-3.5 pl-12 pr-4 text-sm font-bold text-white outline-none"
+                className="w-full bg-slate-950/50 border border-slate-800 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold text-white outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all"
               />
             </div>
           </div>

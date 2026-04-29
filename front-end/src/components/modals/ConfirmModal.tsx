@@ -35,14 +35,14 @@ export default function ConfirmModal({
       btn: "bg-rose-600 hover:bg-rose-500 shadow-rose-900/20",
     },
     success: {
-      icon: <CheckCircle2 className="text-emerald-500" size={24} />,
-      bgIcon: "bg-emerald-500/10 border-emerald-500/20",
-      btn: "bg-emerald-600 hover:bg-emerald-500 shadow-emerald-900/20",
+      icon: <CheckCircle2 className="text-indigo-500" size={24} />,
+      bgIcon: "bg-indigo-500/10 border-indigo-500/20",
+      btn: "bg-indigo-600 hover:bg-indigo-500 shadow-indigo-900/20",
     },
     info: {
-      icon: <AlertTriangle className="text-emerald-500" size={24} />, // Pakai icon peringatan tapi warna emerald khas LIBRA
-      bgIcon: "bg-emerald-500/10 border-emerald-500/20",
-      btn: "bg-emerald-600 hover:bg-emerald-500 shadow-emerald-900/20",
+      icon: <AlertTriangle className="text-indigo-500" size={24} />, // Icon peringatan dengan warna Indigo khas LENTERA
+      bgIcon: "bg-indigo-500/10 border-indigo-500/20",
+      btn: "bg-indigo-600 hover:bg-indigo-500 shadow-indigo-900/20",
     },
   };
 
@@ -51,7 +51,6 @@ export default function ConfirmModal({
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-[100]" onClose={onClose}>
-        {/* Backdrop Backdrop */}
         <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"

@@ -5,7 +5,7 @@ import { useState, Fragment, useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { X } from "lucide-react";
 import { toast } from "sonner";
-// 🔥 Gunakan helper getCsrf agar tidak 404
+// 🔥 Menggunakan helper getCsrf dan api-client standar LENTERA (Tanpa prefix /api/)
 import api, { getCsrf } from "@/libs/api-client";
 import { useUserStore } from "@/store/useUserStore";
 
@@ -38,30 +38,29 @@ export default function BookDetailModal({ isOpen, onClose, book }: ModalProps) {
     if (isSubmitting || quantity <= 0) return;
     
     setIsSubmitting(true);
-    // Simpan quantity ke variabel lokal untuk pesan toast
     const jumlahDipilih = quantity; 
 
     try {
-      // 🔥 Panggil fungsi CSRF dari libs (Fix 404)
+      // Proteksi CSRF LENTERA
       await getCsrf();
 
+      // Hit endpoint sesuai standarisasi arsitektur baru
       const res = await api.post("cart-items", {
         buku_id: book.id,
         jumlah: jumlahDipilih,
       });
 
       if (res.data.status === "success") {
-        // 🔥 Pesan sukses lengkap dengan qty
-        toast.success(`Berhasil menambahkan ${jumlahDipilih}x "${book.title}" ke keranjang`);
+        toast.success(`Berhasil menambahkan ${jumlahDipilih}x "${book.title}" ke reservasi LENTERA`);
         
-        // Update counter di navbar/store
+        // Update counter di store global
         if (updateCartCount) await updateCartCount(jumlahDipilih);
         
         onClose();
       }
     } catch (error: any) {
-      console.error("Fetch Error:", error);
-      toast.error(error.response?.data?.message || "Gagal masuk keranjang");
+      console.error("LENTERA Fetch Error:", error);
+      toast.error(error.response?.data?.message || "Gagal masuk keranjang reservasi");
     } finally { 
       setIsSubmitting(false); 
     }
@@ -70,7 +69,7 @@ export default function BookDetailModal({ isOpen, onClose, book }: ModalProps) {
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onClose}>
-        {/* Backdrop dengan Blur */}
+        {/* Backdrop dengan Blur Indigo-tinted */}
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100"
@@ -88,15 +87,18 @@ export default function BookDetailModal({ isOpen, onClose, book }: ModalProps) {
             >
               <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-[2.5rem] bg-[#0B1120] border border-slate-800 p-8 md:p-10 shadow-2xl transition-all relative text-left">
                 
+                {/* Indigo Accent Line */}
+                <div className="absolute top-0 left-0 w-full h-1.5 bg-indigo-600" />
+
                 {/* Tombol Close */}
                 <button 
                   onClick={onClose} 
-                  className="absolute top-6 right-6 text-slate-500 hover:text-white p-2 z-20 bg-slate-900/50 rounded-full border border-slate-800 transition-colors"
+                  className="absolute top-6 right-6 text-slate-500 hover:text-indigo-400 p-2.5 z-20 bg-slate-900/50 rounded-xl border border-slate-800 transition-all active:scale-95"
                 >
-                  <X size={20} />
+                  <X size={18} />
                 </button>
 
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
                   
                   {/* KOLOM KIRI: Cover & Qty Desktop */}
                   <div className="md:col-span-5 flex flex-col gap-6">
@@ -116,7 +118,7 @@ export default function BookDetailModal({ isOpen, onClose, book }: ModalProps) {
                   <div className="md:col-span-7 flex flex-col justify-between">
                     <BookInfo book={book} />
                     
-                    <div className="mt-8 flex flex-col gap-6">
+                    <div className="mt-10 flex flex-col gap-6">
                       {/* Qty Mobile */}
                       <div className="block md:hidden">
                         <QuantityPicker 
